@@ -84,3 +84,31 @@ html{background:#050713}
 #film.moons-merged .moon-orb{animation:moonFlyToForest 2.2s .35s ease-in both!important}
 
 #film[data-chapter="2"][data-beat="forest"] .actors{animation:anWalkIntoForest 5.2s cubic-bezier(.2,.7,.2,1) forwards!important}#film[data-chapter="2"][data-beat="forest"] .firefly{animation:fireflyLeadIntoForest 5.2s cubic-bezier(.2,.7,.2,1) forwards!important}@keyframes anWalkIntoForest{0%{transform:translateX(-4vw) translateY(0)}25%{transform:translateX(8vw) translateY(-5px)}55%{transform:translateX(22vw) translateY(0)}80%{transform:translateX(35vw) translateY(-4px)}100%{transform:translateX(47vw) translateY(0)}}@keyframes fireflyLeadIntoForest{0%{transform:translate(0,0) scale(.65);opacity:.2}20%{transform:translate(11vw,-5vh) scale(1);opacity:1}42%{transform:translate(25vw,1vh) scale(.8);opacity:.65}65%{transform:translate(42vw,-7vh) scale(1.05);opacity:1}82%{transform:translate(57vw,-2vh) scale(.8);opacity:.7}100%{transform:translate(70vw,-9vh) scale(1);opacity:1}}
+#film .firefly{width:10px;height:10px;border-radius:50%;font-size:0!important;color:#fff3a3;background:#fff3a3;box-shadow:0 0 5px #fff3a388,0 0 12px #ffd45c55;display:block;text-shadow:none}
+#film .firefly:before,#film .firefly:after{display:none!important;content:none!important}
+@media(max-width:680px){#film[data-chapter="1"] .bamboo{animation:none!important;transform:scale(.68)!important;transform-origin:bottom right!important}}
+@media(max-width:680px){
+  /* Cảnh 3 Chương 1: giữ An và bánh nằm gọn trong khung dọc. */
+  #film[data-chapter="1"][data-frame="2"] .an-face{font-size:3.6rem!important}
+  #film[data-chapter="1"][data-frame="2"] .cake{font-size:2.25rem!important}
+  /* Cảnh 2 Chương 1: giảm lân và trống trên màn hình nhỏ. */
+  #film[data-chapter="1"][data-frame="1"] .lion{font-size:2.8rem!important}
+  #film[data-chapter="1"][data-frame="1"] .drummer{font-size:2.35rem!important}
+}
+@media(max-width:680px){
+  .caption{left:12px;right:12px;width:auto;max-width:none;box-sizing:border-box;overflow-wrap:anywhere;word-break:normal;white-space:normal}
+  .speech{left:0;transform:translateY(10px) scale(.9);width:min(260px,calc(100vw - 24px));max-width:calc(100vw - 24px);box-sizing:border-box;overflow-wrap:anywhere;white-space:normal}
+  .speech.show{transform:translateY(0) scale(1)}
+}
+@media(max-width:680px){.caption{left:50%;right:auto;width:92vw;max-width:92vw;transform:translateX(-50%);box-sizing:border-box}}
+@media(max-width:680px){
+  .intro .card,.end .card{width:min(92vw,420px);padding:0 8px}
+  .intro .card h1{font-size:clamp(2.7rem,13vw,4.4rem);line-height:.94;margin:14px 0}
+  .intro .card p{font-size:.9rem;line-height:1.55;margin:12px auto 18px;max-width:330px}
+  .intro .card small{font-size:.62rem;letter-spacing:.12em}
+  .intro .start-btn{padding:12px 18px;font-size:.92rem}
+  #film.counting-down .bamboo{visibility:hidden!important;opacity:0!important}
+  .end .card h2{font-size:clamp(2.25rem,10vw,3.8rem);line-height:.98;margin:14px 0}
+  .end .card p{font-size:.9rem;line-height:1.55;max-width:310px;margin:12px auto 18px}
+  .end .start-btn{max-width:90%;padding:12px 17px;font-size:.9rem;white-space:normal}
+}
