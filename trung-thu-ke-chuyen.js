@@ -92,7 +92,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 #film[data-chapter="2"] .moon-clues button:nth-child(4){left:50%!important;bottom:29%!important}
 .moon-clues button.moving:nth-child(1),.moon-clues button.moving:nth-child(2),.moon-clues button.moving:nth-child(3),.moon-clues button.moving:nth-child(4){transform:scale(.82)!important}
 </style>`);
-chapter2Art.querySelectorAll('[data-moon]').forEach(piece=>piece.addEventListener('click',e=>{e.stopPropagation();if(piece.disabled||filmEl.classList.contains('moons-merged'))return;piece.disabled=true;piece.offsetWidth;requestAnimationFrame(()=>piece.classList.add('moving'));moonFound++;if(moonFound===4){document.querySelector('.moon-clues').classList.add('merging');setTimeout(()=>{filmEl.classList.add('moons-merged');document.querySelector('.moon-clues').style.pointerEvents='none';setTimeout(()=>filmEl.classList.add('moon-hit'),1900)},900)}}));
+chapter2Art.querySelectorAll('[data-moon]').forEach(piece=>piece.addEventListener('click',e=>{e.stopPropagation();if(filmEl.dataset.beat!=='moon-scattered'||piece.disabled||filmEl.classList.contains('moons-merged'))return;piece.disabled=true;piece.offsetWidth;requestAnimationFrame(()=>piece.classList.add('moving'));moonFound++;if(moonFound===4){document.querySelector('.moon-clues').classList.add('merging');setTimeout(()=>{filmEl.classList.add('moons-merged');document.querySelector('.moon-clues').style.pointerEvents='none';setTimeout(()=>filmEl.classList.add('moon-hit'),1900)},900)}}));
 document.head.insertAdjacentHTML('beforeend',`<style>
 /* Bản cuối: mỗi nút là đúng một góc phần tư của cùng một mặt trăng. */
 #film[data-chapter="2"] .cake{display:none!important}
@@ -124,7 +124,8 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 #film[data-chapter="2"][data-beat="moon-scattered"] .actors{left:4%!important;bottom:19%!important;animation:none!important;opacity:1!important}
 #film[data-chapter="2"][data-beat="moon-scattered"] .firefly{left:21%!important;bottom:20%!important;animation:fireflyStillPulse 2.4s ease-in-out infinite!important}
 #film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues{opacity:1!important;pointer-events:auto!important}
-#film[data-chapter="2"][data-beat="moon-scattered-intro"] .moon-clues,#film[data-chapter="2"][data-beat="moon-scattered-dialogue"] .moon-clues{opacity:1!important;pointer-events:none!important}
+#film[data-chapter="2"][data-beat="moon-scattered-intro"] .moon-clues,#film[data-chapter="2"][data-beat="moon-scattered-dialogue"] .moon-clues{opacity:1!important;pointer-events:auto!important}
+#film[data-chapter="2"][data-beat="moon-scattered-intro"] .moon-clues button,#film[data-chapter="2"][data-beat="moon-scattered-dialogue"] .moon-clues button{cursor:default!important}
 #film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues button:not(.moving){width:46px!important;height:46px!important}
 #film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues button.moving{width:46px!important;height:46px!important;left:calc(50% - 23px)!important;bottom:calc(29% - 23px)!important;z-index:8!important;transition:left .85s cubic-bezier(.2,.8,.2,1),bottom .85s cubic-bezier(.2,.8,.2,1),transform .85s ease,opacity .4s ease!important}
 #film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues button:nth-child(1){left:34%!important;bottom:19%!important}
