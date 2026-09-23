@@ -221,6 +221,12 @@ const _storyNext=next;next=function(){if(filmEl.dataset.beat==='death'||(filmEl.
 const wishBeatObserver=new MutationObserver(()=>{if(filmEl.dataset.beat==='wish'){filmEl.dataset.wishReady='false';setTimeout(()=>{if(filmEl.dataset.beat==='wish')filmEl.dataset.wishReady='true'},1500)}else filmEl.dataset.wishReady='true'});wishBeatObserver.observe(filmEl,{attributes:true,attributeFilter:['data-beat']});
 const endTitleObserver=new MutationObserver(()=>{const title=document.querySelector('#end h2');if(title&&title.textContent==='Còn tiếp...')title.textContent='To be continued...'});endTitleObserver.observe(document.querySelector('#end h2'),{childList:true,characterData:true,subtree:true});
 document.head.insertAdjacentHTML('beforeend',`<style>
+/* Vòng tròn gạch gạch tại vị trí mặt trăng vừa biến mất. */
+#film[data-frame="3"] .scene-3:after{content:"";position:absolute;z-index:12;right:11%;top:11%;width:clamp(135px,19vw,230px);aspect-ratio:1;border:4px dashed #c8d2f0aa;border-radius:50%;box-shadow:0 0 18px #aabcf066;opacity:0;animation:moonMissingRing 2.4s ease-in-out forwards}
+#film[data-frame="3"] .shock-ring{display:none!important}
+@keyframes moonMissingRing{0%{opacity:0;transform:scale(.65) rotate(-12deg)}18%{opacity:.9;transform:scale(1.04) rotate(0)}55%{opacity:.7;transform:scale(.92) rotate(8deg)}100%{opacity:.18;transform:scale(1.12) rotate(0)}}
+</style>`);
+document.head.insertAdjacentHTML('beforeend',`<style>
 /* Cảnh 7: An tỉnh dậy, hơi choáng sau khi mặt trăng chạm vào cô bé. */
 #film[data-chapter="2"][data-beat="wake"] .bamboo,#film[data-chapter="2"][data-beat="wake"] .forest-art{display:none!important;visibility:hidden!important;opacity:0!important}
 #film[data-chapter="2"][data-beat="wake"] .actors{left:4%!important;bottom:19%!important;opacity:1!important;animation:anWake 2.2s ease both!important}
