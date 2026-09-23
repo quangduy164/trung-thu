@@ -216,7 +216,8 @@ document.head.insertAdjacentHTML('beforeend',`<style>/* Khóa thao tác trong to
 #film[data-chapter="2"][data-beat="death"]{pointer-events:none!important}
 #film[data-chapter="2"][data-beat="death"] .intro:not(.hide){pointer-events:auto!important;z-index:120!important}
 </style>`);
-const _storyNext=next;next=function(){if(filmEl.dataset.beat==='death')return;return _storyNext()};
+const _storyNext=next;next=function(){if(filmEl.dataset.beat==='death'||(filmEl.dataset.beat==='wish'&&filmEl.dataset.wishReady!=='true'))return;return _storyNext()};
+const wishBeatObserver=new MutationObserver(()=>{if(filmEl.dataset.beat==='wish'){filmEl.dataset.wishReady='false';setTimeout(()=>{if(filmEl.dataset.beat==='wish')filmEl.dataset.wishReady='true'},1500)}else filmEl.dataset.wishReady='true'});wishBeatObserver.observe(filmEl,{attributes:true,attributeFilter:['data-beat']});
 const endTitleObserver=new MutationObserver(()=>{const title=document.querySelector('#end h2');if(title&&title.textContent==='Còn tiếp...')title.textContent='To be continued...'});endTitleObserver.observe(document.querySelector('#end h2'),{childList:true,characterData:true,subtree:true});
 document.head.insertAdjacentHTML('beforeend',`<style>
 /* Cảnh 7: An tỉnh dậy, hơi choáng sau khi mặt trăng chạm vào cô bé. */
