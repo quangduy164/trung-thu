@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trung Thu 3D — Bản xem trước</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#050514;color:#fff;font-family:Arial,sans-serif}#scene{position:fixed;inset:0}canvas{display:block}.search{position:fixed;z-index:5;left:50%;top:22px;transform:translateX(-50%);width:min(78vw,470px);height:48px;border:1px solid #ffffff88;border-radius:28px;background:#11112666;backdrop-filter:blur(8px);display:flex;align-items:center;padding:0 18px;color:#fff9;font-size:16px;box-sizing:border-box}.search:after{content:'⌕';margin-left:auto;color:#fff;font-size:29px;line-height:1}.hint{position:fixed;z-index:5;bottom:18px;left:50%;transform:translateX(-50%);font-size:11px;color:#fff8;text-align:center;text-shadow:0 2px 8px #000;white-space:nowrap}.badge{position:fixed;z-index:5;left:18px;bottom:18px;padding:7px 11px;border-radius:20px;background:#130d21aa;border:1px solid #ffffff22;color:#ffdca0;font-size:11px}
+</style>
+</head>
+<body><div id="scene"></div><div class="badge">TRUNG THU · 3D PREVIEW</div><div class="hint">Kéo để xoay camera · Cuộn để phóng to/thu nhỏ</div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js"}}</script>
+<script>
+addEventListener('error',function(event){document.querySelector('.hint').textContent='Không tải được cảnh 3D: '+(event.message||'Hãy kiểm tra kết nối Internet.');});
+</script>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.161/examples/jsm/controls/OrbitControls.js';
+const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x080817,.035);
+const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);camera.position.set(0,3.2,8.5);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;document.querySelector('#scene').appendChild(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(0,1.8,0);controls.minDistance=5;controls.maxDistance=12;controls.maxPolarAngle=Math.PI*.55;
+scene.add(new THREE.AmbientLight(0x5d477d,1.2));const moonLight=new THREE.PointLight(0xffd6ea,22,18,2);moonLight.position.set(0,6,1);scene.add(moonLight);const pinkLight=new THREE.PointLight(0xff4fc9,8,10,2);pinkLight.position.set(0,4,0);scene.add(pinkLight);
+const ground=new THREE.Mesh(new THREE.SphereGeometry(3.7,32,16,0,Math.PI*2,0,Math.PI*.5),new THREE.MeshStandardMaterial({color:0x24172a,roughness:.92}));ground.scale.set(1.35,.38,1);ground.position.y=-.08;ground.receiveShadow=true;scene.add(ground);
+const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.27,.55,3.15,9),new THREE.MeshStandardMaterial({color:0x24141b,roughness:.9}));trunk.position.set(0,2.0,0);trunk.rotation.z=-.08;trunk.castShadow=true;scene.add(trunk);
+const branchMat=new THREE.MeshStandardMaterial({color:0x30141f,roughness:.8});
+for(let i=0;i<22;i++){const b=new THREE.Mesh(new THREE.CylinderGeometry(.035,.13,1.9+(i%4)*.35,7),branchMat);const a=(i/22)*Math.PI*2;b.position.set(Math.cos(a)*(.42+i%4*.13),3.05+(i%4)*.22,Math.sin(a)*(.38+i%3*.13));b.rotation.z=(Math.cos(a)*.55);b.rotation.x=Math.sin(a)*.48;b.castShadow=true;scene.add(b)}
+const canopyGlow=new THREE.Mesh(new THREE.SphereGeometry(3.05,24,16),new THREE.MeshBasicMaterial({color:0xff46c8,transparent:true,opacity:.045,blending:THREE.AdditiveBlending,depthWrite:false}));canopyGlow.position.set(0,4.35,0);canopyGlow.scale.set(1.05,.55,.7);scene.add(canopyGlow);
+const blossomCount=5200;const blossomGeo=new THREE.BufferGeometry();const pos=new Float32Array(blossomCount*3);const col=new Float32Array(blossomCount*3);const c=new THREE.Color();
+for(let i=0;i<blossomCount;i++){const t=Math.random()*Math.PI*2;const u=Math.random();const r=Math.sqrt(u)*2.8;const canopy=Math.sin(t)*.58;pos[i*3]=Math.cos(t)*r*(1.05+Math.random()*.22);pos[i*3+1]=3.45+canopy*r*.42+(1-u)*1.25+Math.random()*.38;pos[i*3+2]=Math.sin(t)*r*.48+(Math.random()-.5)*.65;c.setHSL(.91+Math.random()*.07,.82,.48+.28*Math.random());col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b}
+blossomGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));blossomGeo.setAttribute('color',new THREE.BufferAttribute(col,3));const blossoms=new THREE.Points(blossomGeo,new THREE.PointsMaterial({size:.048,vertexColors:true,transparent:true,opacity:.98,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(blossoms);
+function lantern(x,y,z,s=.55){const g=new THREE.Group();const body=new THREE.Mesh(new THREE.CylinderGeometry(.22*s,.22*s,.42*s,6),new THREE.MeshStandardMaterial({color:0xf43c38,emissive:0xa71828,emissiveIntensity:1.8}));const cap=new THREE.Mesh(new THREE.ConeGeometry(.25*s,.12*s,6),new THREE.MeshStandardMaterial({color:0xffb53d,emissive:0xff6420,emissiveIntensity:1.3}));cap.position.y=.27*s;const glow=new THREE.PointLight(0xff542d,2.4,2.5);glow.position.y=0;g.add(body,cap,glow);g.position.set(x,y,z);g.userData.base=y;g.userData.phase=Math.random()*6;scene.add(g);return g}
+const lanterns=[lantern(-3.1,3.2,-.8,.55),lantern(3.15,2.5,-.2,.68),lantern(3.75,4.5,-1.5,.48),lantern(-3.8,5.1,-1.8,.42)];
+const rabbit=new THREE.Group();const white=new THREE.MeshStandardMaterial({color:0xf6edf2,roughness:.7});const pink=new THREE.MeshStandardMaterial({color:0xffaacb,emissive:0x5b1e4b,emissiveIntensity:.4});const body=new THREE.Mesh(new THREE.SphereGeometry(.3,18,12),white);body.scale.set(.8,1.15,.75);body.position.y=.35;const head=new THREE.Mesh(new THREE.SphereGeometry(.27,18,12),white);head.position.y=.83;const ear1=new THREE.Mesh(new THREE.CapsuleGeometry(.065,.42,5,10),white);ear1.position.set(-.12,1.22,0);const ear2=ear1.clone();ear2.position.x=.12;const nose=new THREE.Mesh(new THREE.SphereGeometry(.045,10,8),pink);nose.position.set(0,.82,-.25);rabbit.add(body,head,ear1,ear2,nose);rabbit.position.set(0,3.52,.18);rabbit.scale.setScalar(.8);rabbit.traverse(o=>{if(o.isMesh)o.castShadow=true});scene.add(rabbit);
+const starGeo=new THREE.BufferGeometry();const starPos=new Float32Array(420*3);for(let i=0;i<420;i++){starPos[i*3]=(Math.random()-.5)*18;starPos[i*3+1]=Math.random()*9;starPos[i*3+2]=-4-Math.random()*5}starGeo.setAttribute('position',new THREE.BufferAttribute(starPos,3));scene.add(new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xffd9ef,size:.025,transparent:true,opacity:.7})));
+const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();blossoms.rotation.y=t*.025;rabbit.rotation.y=Math.sin(t*.7)*.08;rabbit.position.y=3.52+Math.sin(t*1.8)*.035;lanterns.forEach((l,i)=>{l.position.y=l.userData.base+Math.sin(t*.8+l.userData.phase)*.12;l.rotation.z=Math.sin(t*.7+i)*.08});controls.update();renderer.render(scene,camera)}animate();addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script></body></html>
