@@ -68,7 +68,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 @keyframes clueSpark{50%{transform:scale(1.45) rotate(18deg);opacity:.45}}
 </style>`);
 const CHARACTER_NAME='Linh';
-const WISH_MESSAGE='Chúc bé trung thu vui vẻ nhaa';
+const WISH_MESSAGE='Chúc bé trung thu vui vẻ, cố gắng học nhaa';
 const filmEl=document.querySelector('#film'),caption=document.querySelector('#caption'),captionBox=document.querySelector('#captionBox'),speech=document.querySelector('#speech'),counter=document.querySelector('#counter'),progress=document.querySelector('#progress'),intro=document.querySelector('#intro'),countdown=document.querySelector('#countdown');document.querySelector('.name').textContent=CHARACTER_NAME;let index=0,typing=false,pos=0,current='',timer=null,started=false,ready=false,chapter=1,chapter2Intro=false;
 document.head.insertAdjacentHTML('beforeend',`<style>.chapter2-art{position:absolute;z-index:9;inset:0;pointer-events:none;opacity:0;transition:opacity .8s}.chapter2-art .rabbit{position:absolute;left:25%;bottom:22%;font-size:clamp(3rem,6vw,5rem);filter:drop-shadow(0 0 14px #fff2c066)}.chapter2-art .lake{position:absolute;left:12%;right:12%;bottom:7%;height:20%;border-radius:50%;background:radial-gradient(ellipse,#5d7fcf88,#18265444 55%,transparent 70%);transform:scaleY(.45);}.chapter2-art .door{position:absolute;left:50%;bottom:15%;font-size:clamp(4rem,9vw,7rem);transform:translateX(-50%);filter:drop-shadow(0 0 20px #b9d7ff)}#film[data-chapter="2"] .chapter2-art{opacity:1}#film[data-chapter="2"][data-frame="5"] .chapter2-art .rabbit{animation:rabbitHop 2s ease-in-out infinite}#film[data-chapter="2"][data-frame="4"] .chapter2-art .lake{animation:waterRipple 2.5s ease-in-out infinite}#film[data-chapter="2"][data-frame="3"] .chapter2-art .door{animation:doorGlow 1.8s ease-in-out infinite}@keyframes rabbitHop{50%{transform:translate(24px,-14px) rotate(5deg)}}@keyframes waterRipple{50%{transform:scaleY(.65);filter:brightness(1.3)}}@keyframes doorGlow{50%{transform:translateX(-50%) scale(1.08);filter:drop-shadow(0 0 38px #b9d7ff)}}
 </style>`);
@@ -94,7 +94,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 #film[data-chapter="2"] .moon-clues button:nth-child(4){left:50%!important;bottom:29%!important}
 .moon-clues button.moving:nth-child(1),.moon-clues button.moving:nth-child(2),.moon-clues button.moving:nth-child(3),.moon-clues button.moving:nth-child(4){transform:scale(.82)!important}
 </style>`);
-chapter2Art.querySelectorAll('[data-moon]').forEach(piece=>piece.addEventListener('click',e=>{e.stopPropagation();if(filmEl.dataset.beat!=='moon-scattered'||piece.disabled||filmEl.classList.contains('moons-merged'))return;piece.disabled=true;piece.offsetWidth;requestAnimationFrame(()=>piece.classList.add('moving'));moonFound++;if(moonFound===4){document.querySelector('.moon-clues').classList.add('merging');setTimeout(()=>{filmEl.classList.add('moons-merged');document.querySelector('.moon-clues').style.pointerEvents='none';setTimeout(()=>filmEl.classList.add('moon-hit'),1900)},900)}}));
+chapter2Art.querySelectorAll('[data-moon]').forEach(piece=>piece.addEventListener('click',e=>{e.stopPropagation();if(filmEl.dataset.beat!=='moon-scattered'||piece.disabled||filmEl.classList.contains('moons-merged'))return;piece.disabled=true;piece.offsetWidth;requestAnimationFrame(()=>piece.classList.add('moving'));moonFound++;if(moonFound===4){const clues=document.querySelector('.moon-clues');clues.classList.add('merging');setTimeout(()=>{filmEl.classList.add('moons-merged');clues.classList.add('pieces-hidden');clues.style.pointerEvents='none';setTimeout(()=>filmEl.classList.add('moon-hit'),1900)},900)}}));
 document.head.insertAdjacentHTML('beforeend',`<style>
 /* Bản cuối: mỗi nút là đúng một góc phần tư của cùng một mặt trăng. */
 #film[data-chapter="2"] .cake{display:none!important}
@@ -119,7 +119,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>#film[data-chapter="2"][dat
 chapter2Art.insertAdjacentHTML('beforeend','<span class="shadow-figure" aria-hidden="true"></span>');
 const choicePanel=document.createElement('div');choicePanel.className='scene-choices';choicePanel.innerHTML='<button data-choice="run">Xách cái giò bỏ chạy</button><button data-choice="brave">Chạy gì mà chạy, đi tiếp</button>';filmEl.appendChild(choicePanel);choicePanel.querySelectorAll('[data-choice]').forEach(button=>button.addEventListener('click',e=>{e.stopPropagation();if(filmEl.dataset.beat!=='choices')return;if(button.dataset.choice==='run'){story[index].beat='death';story[index].text='Bóng ma lao tới, nâng bổng An lên và siết chặt cổ cô bé. An lịm dần trong bóng tối.';story=story.slice(0,index+1);document.querySelector('#end h2').textContent='Bóng tối đã bắt được An';document.querySelector('#end p').textContent='Có những lựa chọn khiến câu chuyện dừng lại trong im lặng.';render()}else{story[index].beat='moon-scattered-intro';story[index].who='narrator';story[index].text='An nhìn xuống. Trên mặt đất rải rác những mảnh ánh trăng.'}render()}));
 const bloodFX=document.createElement('span');bloodFX.className='blood-fx';filmEl.appendChild(bloodFX);
-const wishLetter=document.createElement('section');wishLetter.className='wish-letter';wishLetter.setAttribute('aria-label','Bức thư chúc Trung Thu');wishLetter.innerHTML=`<div class="wish-envelope" aria-hidden="true"><span>💌</span></div><article><img class="wish-gif wish-gif-left" src="kitty-roll.gif" alt="Mèo cuộn tròn"><img class="wish-gif wish-gif-right" src="sleepy-cat-cute-cat.gif" alt="Mèo buồn ngủ"><small>GỬI BẠN NHỎ</small><p class="wish-message"></p></article>`;filmEl.appendChild(wishLetter);
+const wishLetter=document.createElement('section');wishLetter.className='wish-letter';wishLetter.setAttribute('aria-label','Bức thư chúc Trung Thu');wishLetter.innerHTML=`<div class="horror-flash" aria-hidden="true"></div><div class="wish-envelope" aria-hidden="true"><span>💌</span></div><article><img class="wish-gif wish-gif-left" src="kitty-roll.gif" alt="Mèo cuộn tròn"><img class="wish-gif wish-gif-right" src="sleepy-cat-cute-cat.gif" alt="Mèo buồn ngủ"><small>GỬI BẠN NHỎ</small><p class="wish-message"></p></article>`;filmEl.appendChild(wishLetter);
 document.head.insertAdjacentHTML('beforeend',`<style>
 /* Nhánh “đi tiếp”: An và đom đóm nép về bên trái, bốn mảnh trăng trải ngang trên đất. */
 #film[data-chapter="2"][data-beat="moon-scattered"] .bamboo,
@@ -219,7 +219,8 @@ document.head.insertAdjacentHTML('beforeend',`<style>/* Khóa thao tác trong to
 #film[data-chapter="2"][data-beat="death"] .intro:not(.hide){pointer-events:auto!important;z-index:120!important}
 </style>`);
 const _storyNext=next;next=function(){if(filmEl.dataset.beat==='death'||(filmEl.dataset.beat==='wish'&&filmEl.dataset.wishReady!=='true'))return;return _storyNext()};
-let wishTypingTimer=null;const wishBeatObserver=new MutationObserver(()=>{if(filmEl.dataset.beat==='wish'){filmEl.dataset.wishReady='false';clearInterval(wishTypingTimer);const target=wishLetter.querySelector('.wish-message');target.textContent='';let n=0;setTimeout(()=>{wishTypingTimer=setInterval(()=>{if(filmEl.dataset.beat!=='wish'){clearInterval(wishTypingTimer);return}target.textContent=WISH_MESSAGE.slice(0,++n);if(n>=WISH_MESSAGE.length)clearInterval(wishTypingTimer)},48)},1050);setTimeout(()=>{if(filmEl.dataset.beat==='wish')filmEl.dataset.wishReady='true'},1500)}else{filmEl.dataset.wishReady='true';clearInterval(wishTypingTimer)}});wishBeatObserver.observe(filmEl,{attributes:true,attributeFilter:['data-beat']});
+let wishTypingTimer=null;const wishBeatObserver=new MutationObserver(()=>{if(filmEl.dataset.beat==='wish'){filmEl.dataset.wishReady='false';clearInterval(wishTypingTimer);const target=wishLetter.querySelector('.wish-message');target.textContent='';let n=0;setTimeout(()=>{wishTypingTimer=setInterval(()=>{if(filmEl.dataset.beat!=='wish'){clearInterval(wishTypingTimer);return}target.textContent=WISH_MESSAGE.slice(0,++n);if(n>=WISH_MESSAGE.length)clearInterval(wishTypingTimer)},48)},4050);setTimeout(()=>{if(filmEl.dataset.beat==='wish')filmEl.dataset.wishReady='true'},4500)}else{filmEl.dataset.wishReady='true';clearInterval(wishTypingTimer)}});wishBeatObserver.observe(filmEl,{attributes:true,attributeFilter:['data-beat']});
+document.querySelector('#start').addEventListener('click',()=>chapter2Art.querySelector('.moon-clues').classList.remove('pieces-hidden','merging'));
 document.head.insertAdjacentHTML('beforeend',`<style>
 /* Uitgebreide thư: phong bì bay vào, thư mở, ánh sáng và lời chúc viết từng chữ. */
 #film[data-chapter="2"][data-beat="wish"] .wish-letter:before,#film[data-chapter="2"][data-beat="wish"] .wish-letter:after{content:"✦";position:absolute;z-index:3;color:#ffe8a0;font-size:1.3rem;text-shadow:0 0 16px #ffd56f;animation:wishSpark 2.4s ease-in-out infinite}
@@ -261,9 +262,17 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 @media(max-width:680px){#film[data-chapter="2"][data-beat="wake"] .actors,#film[data-chapter="2"][data-beat="wish"] .actors{left:3%!important}#film[data-chapter="2"][data-beat="wake"] .firefly,#film[data-chapter="2"][data-beat="wish"] .firefly{left:22%!important}.wish-letter{padding:72px 14px 28px}.wish-letter article{width:min(92vw,420px);padding:27px 22px 24px}.wish-envelope{font-size:3.5rem}.wish-gif{width:52px;height:52px}.wish-gif-left{left:8px;bottom:7px}.wish-gif-right{right:8px;top:7px}}
 </style>`);
 document.head.insertAdjacentHTML('beforeend',`<style>
+/* Cú hù ngắn trước khi bức thư bất ngờ xuất hiện. */
+#film[data-chapter="2"][data-beat="wish"] .horror-flash{position:absolute;z-index:20;inset:0;background:#d71935;opacity:0;pointer-events:none;animation:horrorFlash 3s linear both}
+#film[data-chapter="2"][data-beat="wish"] .wish-envelope{animation:envelopeReveal 1.25s 3s ease both}
+#film[data-chapter="2"][data-beat="wish"] .wish-letter article{animation:letterOpen 1.25s 3.05s cubic-bezier(.2,.8,.2,1) both}
+@keyframes horrorFlash{0%{opacity:0}8%{opacity:.8}18%{opacity:.35}42%{opacity:.7}64%{opacity:.3}82%{opacity:.6}100%{opacity:0}}
+</style>`);
+document.head.insertAdjacentHTML('beforeend',`<style>
 /* Khi đủ bốn mảnh, ẩn toàn bộ nút mảnh để không còn đường chia tư trên mặt trăng tròn. */
 #film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues.merging button,
-#film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues:has(button:nth-child(4):disabled) button{opacity:0!important;pointer-events:none!important}
+#film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues.merging button{opacity:0!important;pointer-events:none!important}
+#film[data-chapter="2"][data-beat="moon-scattered"] .moon-clues.pieces-hidden{visibility:hidden!important;opacity:0!important}
 /* Sau khi ghép, trăng tròn bay thẳng về phía An và khiến cô bé ngất đi. */
 #film[data-chapter="2"][data-beat="moon-scattered"].moons-merged .moon-orb{animation:moonFlyToAn 1.9s .15s cubic-bezier(.2,.8,.2,1) both!important;z-index:80!important}
 #film[data-chapter="2"][data-beat="moon-scattered"].moon-hit .actors{animation:anFaintFromMoon 1.5s ease-in forwards!important;transform-origin:center bottom}
